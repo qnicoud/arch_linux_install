@@ -27,7 +27,7 @@ fi
 sleep1
 
 echo "Partitionning of the system disk"
-sfdisk "/dev/$storage_disk" < `$partition_table $storeage_disk`
+sfdisk "/dev/$storage_disk" < `$partition_table $storage_disk`
 
 sleep1
 
