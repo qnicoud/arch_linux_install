@@ -43,7 +43,8 @@ mount "/dev/$root_part" /mnt
 if [ -d /sys/firmware/efi/efivars ] ; then
 	echo "Format & mount efi partition"
 	mkfs.fat -F 32 "/dev/$efi_part"
-	mount "/dev/$efi_part" /mnt/efi	
+	mkdir /mnt/boot
+	mount "/dev/$efi_part" /mnt/boot	
 fi
 
 sleep 1
