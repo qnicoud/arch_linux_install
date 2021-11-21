@@ -5,7 +5,9 @@ loadkeys fr-latin1
 timedatectl set-ntp true
 
 storage_disk=`lsblk | grep 'disk' | cut -d" " -f1`
-echo $storage_disk
+
+echo -e "${bc}${Gc}${Bf}"
+echo -e "\t$storage_disk"
 
 if [ -d /sys/firmware/efi/efivars ] ; then
 	echo "System booted on efi"
@@ -27,7 +29,7 @@ fi
 sleep1
 
 echo "Partitionning of the system disk"
-sfdisk "/dev/$storage_disk" < `$partition_table "$storage_disk"`
+sfdisk "/dev/$storage_disk" <<< `$partition_table "$storage_disk"`
 
 sleep1
 
@@ -44,7 +46,7 @@ swapon "/dev/$swap_part"
 sleep 1
 
 echo "Downloading Arch-Linux packages and base commands"
-pacstrap /mnt base linux linux-firmware vim man-db man-pages texinfo dhcpcd iproute2
+pacstrap /mnt base linux linux-firmware vim man-db man-pages texinfo dhcpcd iproute2 grub
 
 sleep 1
 
@@ -54,6 +56,7 @@ genfstab -U /mnt >> /mnt/etc/fstab
 sleep 1
 
 echo "Chrooting into Arch-Linux installation using a script"
-arch-chroot /mnt ./chroot_script.sh
+cp ./chroot_script.sh /mnt/root/
+arch-chroot /mnt `./chroot_script.sh`
 
 reboot
