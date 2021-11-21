@@ -40,7 +40,7 @@ echo "Format & mount root partition"
 mkfs.ext4 "/dev/$root_part"
 mount "/dev/$root_part" /mnt
 
-if [] ; then
+if [ -d /sys/firmware/efi/efivars ] ; then
 	echo "Format & mount efi partition"
 	mkfs.fat -F 32 "/dev/$efi_part"
 	mount "/dev/$efi_part" /mnt/efi	

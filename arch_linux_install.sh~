@@ -32,16 +32,19 @@ sfdisk "/dev/$storage_disk" <<< `$partition_table "$storage_disk"`
 
 sleep1
 
-echo "Format partitions"
+echo "Format & mount SWAP"
 mkswap "/dev/$swap_part"
-mkfs.ext4 "/dev/$root_part"
-[ -d /sys/firmware/efi/efivars ] && mkfs.fat -F 32 "/dev/$efi_part"	
-
-sleep 1
-
-echo "Mounting partitions"
-mount "/dev/$root_part" /mnt
 swapon "/dev/$swap_part"
+
+echo "Format & mount root partition"
+mkfs.ext4 "/dev/$root_part"
+mount "/dev/$root_part" /mnt
+
+if [] ; then
+	echo "Format & mount efi partition"
+	mkfs.fat -F 32 "/dev/$efi_part"
+	mount "/dev/$efi_part" /mnt/efi	
+fi
 
 sleep 1
 
