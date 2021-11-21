@@ -1,5 +1,5 @@
 echo "label: dos"
 echo "unit: sectors"
 
-echo "${1}1:	start=-,	size=512MiB,	type=82h"
-echo "${1}2:	start=-,	size=+,		type=83h"
+echo "${1}1:			size=512MiB,	type=82h"
+echo "${1}2:					type=83h"
