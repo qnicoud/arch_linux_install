@@ -1,0 +1,5 @@
+label: mbr
+unit: sectors
+
+start: 1MiB,	size: 512MiB,	type=82h
+start: 773MiB,	size: +,	type=83h

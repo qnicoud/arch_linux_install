@@ -1,0 +1,6 @@
+label: gpt
+unit: sectors
+
+start: 1MiB,	size: 260MiB,	type=C12A7328-F81F-11D2-BA4B-00A0C93EC93B
+start: -,	size: 512MiB,	type=0657FD6D-A4AB-43C4-84E5-0933C84B4F4F
+start: -,	size: -,	type=4F68BCE3-E8CD-4DB1-96E7-FBCAF984B709
