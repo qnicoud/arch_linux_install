@@ -50,7 +50,7 @@ fi
 sleep 1
 
 echo "Downloading Arch-Linux packages and base commands"
-pacstrap /mnt base linux linux-firmware vim man-db man-pages texinfo dhcpcd iproute2 grub
+pacstrap /mnt base linux linux-firmware vim man-db man-pages texinfo dhcpcd iproute2 grub efibootmgr
 
 sleep 1
 
@@ -61,6 +61,6 @@ sleep 1
 
 echo "Chrooting into Arch-Linux installation using a script"
 cp ./chroot_script.sh /mnt/root/script.sh
-arch-chroot /mnt `./chroot_script.sh`
+arch-chroot /mnt `/bin/bash /root/script.sh`
 
 #reboot
