@@ -8,12 +8,18 @@ echo "LANG=en_US.UTF-8" > /etc/locale.conf
 echo "KEYMAP=de-latin1" > /etc/vconsole.conf
 echo "daKomputer" > /etc/hostname
 
-#echo "Set root password"
-#echo "zobidou" | passwd "root" --stdin
+password="zobidou"
+echo "Set root password to $passwordshutdown"
+echo -e "${password}\n$password" | passwd
+password="zobidou"
 
 echo "Enable dhcpd service"
 systemctl enable dhcpcd.service
 
+cp /etc/mkinitcpio.conf /etc/mkinitcpio.conf.ori
+awk '/^HOOKS/{$5 = $5" lvm2"; print $0} /^[^H]/{print $0}' /etc/mkinitcpio.conf.ori >/etc/mkinitcpio.conf
+
+mkinitcpio -P linux
 
 if [ -d /sys/firmware/efi ] ; then
 	grub-install --target=x86_64-efi --efi-directory=/efi --bootloader-id=GRUB

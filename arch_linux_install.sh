@@ -6,7 +6,6 @@ timedatectl set-ntp true
 
 storage_disk=`lsblk | grep 'disk' | cut -d" " -f1`
 
-echo -e "${bc}${Gc}${Bf}"
 echo -e "\t$storage_disk"
 
 if [ -d /sys/firmware/efi/efivars ] ; then
@@ -32,25 +31,40 @@ sfdisk "/dev/$storage_disk" <<< `$partition_table "$storage_disk"`
 
 sleep1
 
+echo "Configure root_partition with LVM"
+pvcreate $root_part
+vg_name="volgLinux"
+vgcreate $vg_name $root_part
+lv_root="lvroot"
+lv_home="lvhome"
+lvcreate -l 90%FREE $vg_name -n $lv_root
+lvcreate -l 100%FREE $vg_name -n $lv_home
+lsblk
+
 echo "Format & mount SWAP"
 mkswap "/dev/$swap_part"
 swapon "/dev/$swap_part"
 
 echo "Format & mount root partition"
-mkfs.ext4 "/dev/$root_part"
-mount "/dev/$root_part" /mnt
+mkfs.ext4 "/dev/${vg_name}/$lv_root"
+mount "/dev/${vg_name}/$lv_root" /mnt
+
+echo "Format & mount home partition"
+mkfs.ext4 "/dev/${vg_name}/$lv_home"
+mkdir /mnt/home
+mount "/dev/${vg_name}/$lv_home" /mnt/home
 
 if [ -d /sys/firmware/efi/efivars ] ; then
 	echo "Format & mount efi partition"
 	mkfs.fat -F 32 "/dev/$efi_part"
-	mkdir /mnt/efi
-	mount "/dev/$efi_part" /mnt/efi	
+	mkdir /mnt/boot
+	mount "/dev/$efi_part" /mnt/boot
 fi
 
 sleep 1
 
 echo "Downloading Arch-Linux packages and base commands"
-pacstrap /mnt base linux linux-firmware vim man-db man-pages texinfo dhcpcd iproute2 grub efibootmgr
+pacstrap /mnt base linux linux-firmware vim man-db man-pages texinfo dhcpcd iproute2 grub efibootmgr lvm2
 
 sleep 1
 

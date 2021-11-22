@@ -1,4 +1,4 @@
-#!/bin/zsh
+#!/bin/bash
 
 echo "Set system locale, time, ..."
 ln -sf /usr/share/zoneinfo/Europe/Paris /etc/localtime
