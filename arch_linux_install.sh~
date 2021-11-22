@@ -62,4 +62,4 @@ sleep 1
 echo "Chrooting into Arch-Linux installation using a script"
 arch-chroot /mnt `./chroot_script.sh`
 
-reboot
+#reboot

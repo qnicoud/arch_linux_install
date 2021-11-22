@@ -60,6 +60,7 @@ genfstab -U /mnt > /mnt/etc/fstab
 sleep 1
 
 echo "Chrooting into Arch-Linux installation using a script"
+cp ./chroot_script.sh /mnt/root/script.sh
 arch-chroot /mnt `./chroot_script.sh`
 
 #reboot
