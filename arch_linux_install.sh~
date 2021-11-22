@@ -43,14 +43,14 @@ mount "/dev/$root_part" /mnt
 if [ -d /sys/firmware/efi/efivars ] ; then
 	echo "Format & mount efi partition"
 	mkfs.fat -F 32 "/dev/$efi_part"
-	mkdir /mnt/boot
-	mount "/dev/$efi_part" /mnt/boot	
+	mkdir /mnt/efi
+	mount "/dev/$efi_part" /mnt/efi	
 fi
 
 sleep 1
 
 echo "Downloading Arch-Linux packages and base commands"
-pacstrap /mnt base linux linux-firmware vim man-db man-pages texinfo dhcpcd iproute2 grub
+pacstrap /mnt base linux linux-firmware vim man-db man-pages texinfo dhcpcd iproute2 grub efibootmgr
 
 sleep 1
 
@@ -61,6 +61,6 @@ sleep 1
 
 echo "Chrooting into Arch-Linux installation using a script"
 cp ./chroot_script.sh /mnt/root/script.sh
-arch-chroot /mnt `/bin/bash ./chroot_script.sh`
+arch-chroot /mnt `/bin/bash /root/script.sh`
 
 #reboot
