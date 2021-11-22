@@ -8,17 +8,17 @@ echo "LANG=en_US.UTF-8" > /etc/locale.conf
 echo "KEYMAP=de-latin1" > /etc/vconsole.conf
 echo "daKomputer" > /etc/hostname
 
-echo "Set root password"
-echo "zobidou" | passwd "root" --stdin
+#echo "Set root password"
+#echo "zobidou" | passwd "root" --stdin
 
 echo "Enable dhcpd service"
 systemctl enable dhcpcd.service
 
-system_disk=`lsblk | grep "disk" | cut -d" " -f1`
 
 if [ -d /sys/firmware/efi ] ; then
 	grub-install --target=x86_64-efi --efi-directory=/efi --bootloader-id=GRUB
 else
+	system_disk=`lsblk | grep "disk" | cut -d" " -f1`
 	grub-install --target=i386-pc /dev/$system_disk
 fi
 
